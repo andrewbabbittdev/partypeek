@@ -4,6 +4,8 @@
 
 using Dalamud.Hosting;
 using Dalamud.Plugin;
+using PartyPeek.Services;
+using PartyPeek.Windows;
 
 namespace PartyPeek;
 
@@ -25,6 +27,9 @@ public class Plugin : IDalamudPlugin
     public Plugin(IDalamudPluginInterface pluginInterface)
     {
         var builder = DalamudApplication.CreateBuilder(pluginInterface);
+
+        builder.ConfigurePartyPeekServices()
+            .ConfigurePartyPeekWindows();
 
         App = builder.Build();
 
