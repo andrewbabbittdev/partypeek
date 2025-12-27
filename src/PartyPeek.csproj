@@ -1,0 +1,7 @@
+﻿<Project Sdk="Dalamud.Hosting.Sdk">
+
+  <PropertyGroup>
+    <RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
+  </PropertyGroup>
+
+</Project>

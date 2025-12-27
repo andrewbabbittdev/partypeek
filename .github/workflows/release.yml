@@ -1,0 +1,75 @@
+name: Release Project
+
+on:
+  release:
+    types:
+      - prereleased
+      - released
+
+permissions:
+  id-token: write
+  contents: write
+  packages: read
+
+jobs:
+  release:
+    name: Release Project
+    runs-on: windows-latest
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v6
+
+      - name: Build changelog
+        id: changelog
+        uses: mikepenz/release-changelog-builder-action@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          toTag: ${{ github.event.release.tag_name }}
+          commitMode: true
+          configuration: .github/changelog.json
+
+      - name: Set up .NET
+        uses: zyactions/dotnet-setup@v1
+        with:
+          global-json-file: global.json
+
+      - name: Set up Dalamud
+        run: |
+          Invoke-WebRequest -Uri https://goatcorp.github.io/dalamud-distrib/latest.zip -OutFile latest.zip
+          Expand-Archive -Force latest.zip "$env:AppData\XIVLauncher\addon\Hooks\dev"
+          Remove-Item -Path latest.zip
+
+      - name: Restore .NET dependencies
+        uses: zyactions/dotnet-restore@v1
+
+      - name: Build solution
+        env:
+          ReleaseVersion: ${{ github.event.release.tag_name }}
+        run: |
+          dotnet build -c Release
+          mv artifacts/bin/PartyPeek/release/PartyPeek/latest.zip artifacts/bin/PartyPeek/release/PartyPeek/PartyPeek.${{ env.ReleaseVersion }}.zip
+          $repo = Get-Content -Path assets/repo.json
+          $repo = $repo.Replace("{version}", "${{ env.ReleaseVersion }}")
+          Set-Content -Path assets/repo.json -Value $repo
+
+      - name: Update release
+        uses: ncipollo/release-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ github.event.release.tag_name }}
+          allowUpdates: true
+          prerelease: ${{ github.event.release.prerelease }}
+          body: ${{ steps.changelog.outputs.changelog }}
+          artifacts: artifacts/bin/PartyPeek/release/PartyPeek/*.*
+          makeLatest: true
+
+      - name: Update repository
+        uses: ncipollo/release-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: latest
+          allowUpdates: true
+          body: ${{ steps.changelog.outputs.changelog }}
+          artifacts: assets/repo.json
+          replacesArtifacts: true
+          makeLatest: false

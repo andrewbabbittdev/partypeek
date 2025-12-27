@@ -1,0 +1,24 @@
+[
+    {
+        "Author": "The Party Peek Contributors",
+        "Name": "Party Peek",
+        "Description": "A plugin for peeking at who's in a party before joining.",
+        "InternalName": "PartyPeek",
+        "AssemblyVersion": "{version}.0",
+        "RepoUrl": "https://github.com/andrewbabbittdev/partypeek",
+        "IconUrl": "https://raw.githubusercontent.com/andrewbabbittdev/partypeek/main/assets/nuget.png",
+        "ApplicableVersion": "any",
+        "Tags": [
+            "Party",
+            "Peek"
+        ],
+        "DalamudApiLevel": 14,
+        "IsHide": "False",
+        "IsTestingExclusive": "False",
+        "LastUpdated": 0,
+        "DownloadCount": 0,
+        "DownloadLinkInstall": "https://github.com/andrewbabbittdev/partypeek/releases/download/{version}/PartyPeek.{version}.zip",
+        "DownloadLinkUpdate": "https://github.com/andrewbabbittdev/partypeek/releases/download/{version}/PartyPeek.{version}.zip",
+        "DownloadLinkTesting": "https://github.com/andrewbabbittdev/partypeek/releases/download/{version}/PartyPeek.{version}.zip"
+    }
+]

@@ -1,0 +1,10 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+  </Configurations>
+  <Folder Name="/src/">
+    <Project Path="src/PartyPeek.csproj">
+      <Platform Project="x64" />
+    </Project>
+  </Folder>
+</Solution>

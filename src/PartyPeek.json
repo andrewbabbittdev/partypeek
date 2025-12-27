@@ -1,0 +1,11 @@
+{
+    "Author": "The Party Peek Contributors",
+    "Name": "Party Peek",
+    "Punchline": "A plugin for peeking at who's in a party before joining.",
+    "Description": "A plugin for peeking at who's in a party before joining.",
+    "ApplicableVersion": "any",
+    "Tags": [
+        "Party",
+        "Peek"
+    ]
+}

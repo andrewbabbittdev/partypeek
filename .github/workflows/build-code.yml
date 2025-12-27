@@ -1,0 +1,34 @@
+name: Build Code
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-code:
+    name: Build Code
+    runs-on: windows-latest
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v6
+
+      - name: Set up .NET
+        uses: zyactions/dotnet-setup@v1
+        with:
+          global-json-file: global.json
+
+      - name: Set up Dalamud
+        run: |
+          Invoke-WebRequest -Uri https://goatcorp.github.io/dalamud-distrib/latest.zip -OutFile latest.zip
+          Expand-Archive -Force latest.zip "$env:AppData\XIVLauncher\addon\Hooks\dev"
+          Remove-Item -Path latest.zip
+
+      - name: Restore .NET dependencies
+        uses: zyactions/dotnet-restore@v1
+
+      - name: Build solution
+        run: dotnet build -c Release
